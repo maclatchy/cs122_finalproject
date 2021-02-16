@@ -117,7 +117,7 @@ def find_parks():
                 park_str = park_str.replace("-", " ")
                 park_str = string.capwords(park_str)
                 park_names.append(park_str)
-        #print("Park Names:", park_names)
+        #print("Park Names:", len(park_names))
         all_addrs = []
         for addr in park_address:
             park_addr = []
@@ -133,17 +133,18 @@ def find_parks():
             address = " ".join(park_addr)
             address = address.replace(".", "")
             all_addrs.append(address)
-            if len(park_names) == 0:
+        #print("Addresses:", len(all_addrs))  
+        i = 0
+        for addr in all_addrs:
+            if len(park_names) < len(all_addrs):
                 continue
-            else:
-                for park in park_names:
-                    for addr in all_addrs:
-                        park_dict = dict()
-                        park_dict["name"] = park
-                        park_dict["address"] = address
-                        park_dict["zipcode"] = zip_code
+            park_dict = dict()
+            park_dict["name"] = park_names[i]
+            park_dict["address"] = address
+            park_dict["zipcode"] = zip_code
+            i +=1
+            all_park_facil.append(park_dict)
         page_num = "?page=" + str(n)
-        all_park_facil.append(park_dict)
     return all_park_facil
 
 
