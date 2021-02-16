@@ -19,6 +19,32 @@ def find_parks():
     park_text = park_page.text
     soup = bs4(park_text, 'html.parser')
     park_name = soup.find_all("a", href=re.compile(r"^/parks-facilities/"))
+    addr_dict = dict()
+    park_address = soup.find_all("p", class_="address", translate="no")
+    for addr in park_address:
+        park_addr = []
+        addr = addr.text
+        addr_lst = addr.split()
+        zip_code = addr_lst[-1]
+        for word in addr_lst:
+            if word != "Chicago," \
+                and word != "IL":
+                park_addr.append(word)
+        address = " ".join(park_addr)
+        print(address)
+        if zip_code in addr_dict:
+            addr_dict[zip_code] = addr_dict[zip_code].append(address)
+        else:
+            addr_dict[zip_code] = [address]
+        #addr = " ".join(addr.split())
+        
+    
+
+    print(addr_dict)
+        
+            
+            
+
     found_park = False
     for park in park_name:
         a_tag = park["href"]
@@ -30,6 +56,5 @@ def find_parks():
             park_str = re.search(r"(?<=/parks\-facilities/).*[a-z0-9]", park_ref)
             park_str = park_str.group(0)
             park_str = park_str.replace("-", " ")
-
-            print(park_str)
+    
     return
