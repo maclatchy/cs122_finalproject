@@ -26,15 +26,13 @@ lib_cdp_data = pd.read_csv('https://data.cityofchicago.org/resource/x8fc-8rcq.cs
 print(lib_cdp_data.shape)
 
 # Neighborhood boundaries
-neighbor_bound = gpd.read_file('Neighborhoods_2012/Neighborhoods_2012b.shp')
+neighbor_bound = gpd.read_file('Neighborhoods_2012b.shp')
 print(neighbor_bound.shape)
 
 # Census tract boundaries
-census_bound = gpd.read_file('Boundaries - Census Tracts - 2010/'
-                             'geo_export_b422834f-4172-488f-901e-9cc00aa9cf19.shp')
+census_bound = gpd.read_file('geo_export_b422834f-4172-488f-901e-9cc00aa9cf19.shp')
 print(census_bound.shape)
 
 # Zip code boundaries
-zip_bound = gpd.read_file('Boundaries - ZIP codes/'
-                          'geo_export_0c65adac-cb98-462f-b7b5-f5b6f8a590eb.shp')
+zip_bound = gpd.read_file('geo_export_0c65adac-cb98-462f-b7b5-f5b6f8a590eb.shp')
 print(zip_bound.shape)
