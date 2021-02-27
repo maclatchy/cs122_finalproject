@@ -1,4 +1,4 @@
-"Tract ID","STATE2KX","CNTY2KX","TRACT2KX","e(0)","se(e(0))","Abridged life table flag"
+"tract_id","state2kx","cnty2KX","tract2KX","life_exp","st_err","flag"
 17001000100,17,001,000100,85.3,2.2365,3
 17001000201,17,001,000201,78.1,1.8283,3
 17001000202,17,001,000202,78.2,2.6379,3
