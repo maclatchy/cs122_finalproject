@@ -9,7 +9,7 @@ import contextily as ctx
 zip_gdf = gpd.read_file("/data_files/chicago_zip_tracts.shp")
 zip_gdf.zip = zip_gdf.zip.astype(int)
 census_gdf = gpd.read_file("/data_files/census_tract_boundaries.shp")
-neighbor_gdf = gpd.read_file("/Users/seanmaclatchy/Desktop/CS122/project/Neighborhoods_2012/Neighborhoods_2012b.shp")
+neighbor_gdf = gpd.read_file("/data_files/Neighborhoods_2012b.shp")
 
 # Load and clean park data
 parks = gpd.read_file("/data_files/new_parks.csv")
@@ -21,7 +21,7 @@ geometry = [Point(xy) for xy in zip(parks.lon, parks.lat)]
 parks.geometry = geometry
 
 # Load and clean grocery data
-grocery = pd.read_csv("/Users/seanmaclatchy/Desktop/CS122/project/grocery_stores.csv")
+grocery = pd.read_csv("/data_files/grocery_stores.csv")
 grocery.columns = grocery.columns.str.lower()
 grocery.rename(columns = {'zip code':'zip'}, inplace = True) 
 geometry = [Point(xy) for xy in zip(grocery.longitude, grocery.latitude)]
