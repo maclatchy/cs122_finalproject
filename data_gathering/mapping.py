@@ -6,11 +6,19 @@ from shapely.geometry import Point
 import contextily as ctx
 
 # Load base layers
-zip_gdf = gpd.read_file("/data_file/chicago_zip_tracts.shp")
+zip_gdf = gpd.read_file("/data_files/chicago_zip_tracts.shp")
 zip_gdf.zip = zip_gdf.zip.astype(int)
-census_gdf = gpd.read_file("/data_file/census_tract_boundaries.shp")
-neighbor_gdf = gpd.read_file("/data_files/Neighborhoods_2012b.shp")
+census_gdf = gpd.read_file("/data_files/census_tract_boundaries.shp")
+neighbor_gdf = gpd.read_file("/Users/seanmaclatchy/Desktop/CS122/project/Neighborhoods_2012/Neighborhoods_2012b.shp")
 
+# Load and clean park data
+parks = gpd.read_file("/data_files/new_parks.csv")
+parks.rename(columns = {'zipcode':'zip', 'lattitude':'lat', 'longitude':'lon'}, inplace = True) 
+parks.lat = parks.lat.astype('float')
+parks.lon = parks.lon.astype('float')
+parks.zip = parks.zip.astype('int')
+geometry = [Point(xy) for xy in zip(parks.lon, parks.lat)]
+parks.geometry = geometry
 
 # Load and clean grocery data
 grocery = pd.read_csv("/Users/seanmaclatchy/Desktop/CS122/project/grocery_stores.csv")
@@ -21,7 +29,7 @@ grocery = grocery.drop(['longitude', 'latitude'], axis=1)
 grocery_gdf = gpd.GeoDataFrame(grocery, crs="EPSG:4326", geometry=geometry)
 
 # Load and clean health center data
-health = pd.read_csv('https://data.cityofchicago.org/resource/cjg8-dbka.csv')
+health = pd.read_csv('data_files/health_centers.csv')
 health = health.reset_index()
 health[['zip']] = health.location_1.str.extract(r'(\d{5})')
 health.zip = health.zip.astype(int)
@@ -34,7 +42,7 @@ health = health.drop(['lon', 'lat'], axis=1)
 health_gdf = gpd.GeoDataFrame(health, crs="EPSG:4326", geometry=geometry)
 
 # Load and clean library data
-libraries = pd.read_csv("/Users/seanmaclatchy/Desktop/CS122/project/library.csv")
+libraries = pd.read_csv("/data_files/library.csv")
 libraries.columns= libraries.columns.str.lower()
 libraries[['lat', 'lon']] = libraries.location.str.split(expand=True)
 libraries.lat = libraries.lat.str.strip('(').str.strip(',')
@@ -63,5 +71,27 @@ def get_zip_lib(zip_code):
     plt.show()
     return
 
-get_zip_lib(60615)
+def community_profile_map(zip_code):
+  '''
+  Input:
+    zip (int): ZIP code
+
+  Output:
+    Map of zip code with library locations
+  '''
+  # Point layer of libraries
+  ax0 = lib_gdf.loc[lib_gdf.zip == zip_code].plot(color='green', zorder=2, figsize=(10, 10))
+  # Point layer of health centers
+  ax1 = health_gdf.loc[health_gdf.zip == zip_code].plot(ax=ax0, color='red', zorder=1, figsize=(10, 10))
+  # Point layer of grocery stores
+  ax2 = grocery_gdf.loc[grocery_gdf.zip == zip_code].plot(ax=ax1, color='blue', zorder=1, figsize=(10, 10))
+  # Point layer for park location
+  ax3 = parks.loc[parks.zip == zip_code].plot(ax=ax2, color='blue', zorder=1, figsize=(10, 10))
+  # Polygon layer of zip codes
+  final_ax = zip_gdf.loc[zip_gdf.zip == zip_code].boundary.plot(ax=ax3, color= 'black', zorder=1, figsize=(10, 10))
+  # Streetview basemap
+  ctx.add_basemap(final_ax, crs=zip_gdf.crs.to_string())
+  return 
+
+community_profile_map(60615)
 
