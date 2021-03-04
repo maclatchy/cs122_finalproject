@@ -12,17 +12,12 @@ census_gdf = gpd.read_file("/data_files/census_tract_boundaries.shp")
 neighbor_gdf = gpd.read_file("/data_files/Neighborhoods_2012b.shp")
 
 # Grocery stores
-grocery = gpd.read_file('/data_files/grocery_stores.csv')
-grocery.columns = grocery.columns.str.lower().str.strip()
-to_drop = ['store name', 'license id', 'account number', 'square feet',
-           'buffer size', 'location', 'x coordinate', 'y coordinate']
-grocery.drop(columns=to_drop, inplace=True)
-grocery.rename(columns={'zip code': 'zip',
-                        'latitude': 'lat', 'longitude': 'lon'}, inplace=True)
-grocery.lon = grocery.lon.astype(float)
-grocery.lat = grocery.lat.astype(float)
-grocery.geometry = [Point(xy) for xy in zip(grocery.lon, grocery.lat)]
-grocery.crs = 'EPSG:4326'
+grocery = pd.read_csv("/Users/seanmaclatchy/Desktop/CS122/project/grocery_stores.csv")
+grocery.columns = grocery.columns.str.lower()
+grocery.rename(columns = {'zip code':'zip'}, inplace = True) 
+geometry = [Point(xy) for xy in zip(grocery.longitude, grocery.latitude)]
+grocery = grocery.drop(['longitude', 'latitude'], axis=1)
+grocery = gpd.GeoDataFrame(grocery, crs="EPSG:4326", geometry=geometry)
 
 # Health centers
 health = gpd.read_file('/data_files/health_centers.csv')
@@ -68,6 +63,8 @@ parks.lon = parks.lon.astype('float')
 parks.zip = parks.zip.astype('int')
 parks.geometry = [Point(xy) for xy in zip(parks.lon, parks.lat)]
 parks.crs = 'EPSG:4326'
+# Wrong zip codes
+parks = parks.drop([1451, 372])
 
 # Schools
 schools = pd.read_csv('/data_files/CPS.csv', usecols=[16, 19, 67, 68])
