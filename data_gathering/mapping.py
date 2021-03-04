@@ -89,6 +89,14 @@ cta_rail.drop(columns=to_drop, inplace=True)
 cta_rail = cta_rail.to_crs('EPSG:4326')
 cta_rail
 
+# CTA bus stops
+cta_bus = gpd.read_file('/data_files/CTA_BusStops.shp')
+cta_bus.columns = cta_bus.columns.str.lower().str.strip()
+cta_bus = cta_bus.loc[cta_bus.city == 'CHICAGO']
+to_drop = ['systemstop', 'owlroutes', 'city', 'status', 'public_nam']
+cta_bus.drop(columns=to_drop, inplace=True)
+cta_bus
+
 # Get zip and points function
 def get_zip_lib(zip_code):
     '''
@@ -116,27 +124,22 @@ def community_profile_map(zip_code):
   '''
   # Point layer of libraries
   ax0 = library.loc[library.zip == zip_code].plot(color='green', 
-                                                  zorder=2, 
                                                   figsize=(10, 10))
   # Point layer of health centers
   ax1 = health.loc[health.zip == zip_code].plot(ax=ax0, 
                                                 color='red', 
-                                                zorder=1, 
                                                 figsize=(10, 10))
   # Point layer of grocery stores
   ax2 = grocery.loc[grocery.zip == zip_code].plot(ax=ax1, 
                                                   color='blue', 
-                                                  zorder=1, 
                                                   figsize=(10, 10))
   # Point layer for park location
   ax3 = parks.loc[parks.zip == zip_code].plot(ax=ax2, 
                                               color='blue', 
-                                              zorder=1, 
                                               figsize=(10, 10))
   # Polygon layer of zip codes
   final_ax = zip_gdf.loc[zip_gdf.zip == zip_code].boundary.plot(ax=ax3, 
                                                                 color= 'black', 
-                                                                zorder=1, 
                                                                 figsize=(10, 10))
   # Streetview basemap
   ctx.add_basemap(final_ax, crs=zip_gdf.crs.to_string())
