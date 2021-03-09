@@ -77,3 +77,10 @@ def create_homelisting_tbl(link_df):
                 all_listings = True      
     return 
 
+redfin = pd.read_csv("all_listings.csv", usecols=[2, 3, 6, 7, 8, 
+                                                  9, 10, 11, 12, 17])
+redfin.columns = redfin.columns.str.lower()
+redfin.rename(columns={'zip or postal code': 'zip'}, inplace=True)
+
+
+
