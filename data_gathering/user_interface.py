@@ -10,8 +10,6 @@ print("\nPlease input a whole number ranged [0, 5] for all prompts, with 0"
 
 preference_dict = dict()
 
-error_value = "\nPlease input a whole number ranged [0, 5]\n"
-
 attribute_dict = {"grocery_stores":"How important is proximity to grocery stores for you? \n",
                   "parks":"How important is proximity to parks for you? \n",
                   "libraries":"How important is proximity to public libraries for you? \n",
@@ -31,7 +29,7 @@ def get_score(attribute):
             print("\nYou did not enter a valid whole number.\n")
             continue
         if data > 5 or data < 0:
-            print(error_value)
+            print("\nThe number you entered was not in the range [0, 5]")
             continue
         else:
             preference_dict[('z_' + attribute)] = data
