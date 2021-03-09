@@ -17,10 +17,16 @@ attribute_dict = {"grocery_stores":"Question: how important is proximity to groc
                   "health_centers":"Question: how important is proximity to health centers for you? \n",
                   "cta_train_stops":"Question: how important is proximity to CTA TRAIN stops for you? \n",
                   "cta_bus_stops":"Question: how important is proximity to CTA BUS stops for you? \n",
-                  "crimes":"Question: how important is the crime level for you? \n"}
+                  "crimes":"Question: how important is the local crime level to you? \n"}
 
 
 def get_score(attribute):
+    '''
+    Takes user inputs and builds a socre dictionary
+
+    Input:
+      attribute (str): key in attribute dictionary
+    '''
     question = attribute_dict[attribute]
     while True:
         data = input(question)
