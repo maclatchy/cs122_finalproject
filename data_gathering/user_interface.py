@@ -9,8 +9,6 @@ print("\nPlease input a whole number ranged [0, 5] for all prompts, with 0"
       "\nbeing the least important and 5 being the most important.\n"
       "\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n")
 
-preference_dict = dict()
-
 attribute_dict = {"grocery_stores":"Question: how important is proximity to grocery stores for you? \n",
                   "parks":"Question: how important is proximity to parks for you? \n",
                   "libraries":"Question: how important is proximity to public libraries for you? \n",
@@ -19,6 +17,7 @@ attribute_dict = {"grocery_stores":"Question: how important is proximity to groc
                   "cta_bus_stops":"Question: how important is proximity to CTA BUS stops for you? \n",
                   "crimes":"Question: how important is the local crime level to you? \n"}
 
+preference_dict = dict()
 
 def get_score(attribute):
     '''
@@ -44,10 +43,9 @@ def get_score(attribute):
     print('\nThank you!\n')
     return
 
-# Get preferences
+# Get preferences and siplay zipcodes
 for key in attribute_dict.keys():
     get_score(key)
-
 sort_df = zip_recommendation.get_sorted_weights(preference_dict)
 print("\nThese zip codes match your entries the best:\n")
 print(sort_df.head(5))
