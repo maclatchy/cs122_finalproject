@@ -15,7 +15,7 @@ zip_gdf = zip_gdf.drop(['objectid'], axis=1)
 # Grocery stores
 grocery = pd.read_csv("../data_files/grocery_stores.csv", usecols=[6, 14, 15])
 grocery.columns = grocery.columns.str.lower()
-grocery.rename(columns={'zip code': 'zip'}, inplace=True)
+grocery.rename(columns={'zip_code': 'zip'}, inplace=True)
 geometry = [Point(xy) for xy in zip(grocery.longitude, grocery.latitude)]
 grocery = gpd.GeoDataFrame(grocery, crs="EPSG:4326", geometry=geometry)
 
@@ -130,3 +130,5 @@ def community_profile_map(zip_code):
                                                                 figsize=(10, 10))
     ctx.add_basemap(final_ax, crs=zip_gdf.crs.to_string())
     return
+
+community_profile_map(60615)
