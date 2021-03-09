@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 
 user_weights = {"z_grocery_stores":2,"z_parks":3,"z_libraries":1,"z_health_centers":1,"z_cta_train_stops":5,"z_cta_bus_stops":0,"z_crimes":0}
-df = pd.read_csv("z_score_counts.csv")
+df = pd.read_csv("../data_files/z_score_counts.csv")
 
 def weighting(zipcode):
     #given a particular zip code calculate score from user weights
