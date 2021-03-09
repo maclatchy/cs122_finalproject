@@ -47,7 +47,7 @@ def get_score(attribute):
 for key in attribute_dict.keys():
     get_score(key)
 sort_df = zip_recommendation.get_sorted_weights(preference_dict)
-print("\nThese zip codes match your entries the best:\n")
+print("\nThese zip codes match your entries the best:")
 print(sort_df.head(5))
 print('')
 
