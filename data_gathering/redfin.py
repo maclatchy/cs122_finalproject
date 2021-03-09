@@ -80,7 +80,9 @@ def create_homelisting_tbl(link_df):
 redfin = pd.read_csv("all_listings.csv", usecols=[2, 3, 6, 7, 8, 
                                                   9, 10, 11, 12, 17])
 redfin.columns = redfin.columns.str.lower()
-redfin.rename(columns={'zip or postal code': 'zip'}, inplace=True)
-
+redfin.rename(columns={'zip or postal code':'zip', 'property type':'p_type', 
+                       'lot size':'lot_size', 'square feet':'sq_feet'}, inplace=True)
+to_drop = redfin.loc[(redfin.p_type == 'Parking') | (redfin.p_type == 'Vacant Lot')]
+redfin.drop(to_drop.index, inplace=True)
 
 
