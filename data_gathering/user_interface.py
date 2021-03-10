@@ -66,16 +66,9 @@ zip_census_conv.drop(columns=['bus_ratio', 'oth_ratio', 'tot_ratio'], inplace=Tr
 income = pd.read_csv('../data_files/med_income.csv')
 income.columns = income.columns.str.lower().str.strip()
 
-z_to_c = pd.Series([])
-for index, value in income.iterrows():
-    i = (zip_census_conv.loc[zip_census_conv.zip == value.zip_code]).index
-    i = pd.Series(i)
-    z_to_c = pd.concat([z_to_c, i])
-new_zip_census_conv = zip_census_conv.iloc[z_to_c]
-
 tup_lst = list()
-for index, value in income.iterrows():
-    i = (zip_census_conv.loc[zip_census_conv.zip == value.zip_code])
+for index, row in income.iterrows():
+    i = (zip_census_conv.loc[zip_census_conv.zip == row.zip_code])
     best = i.res_ratio.max()
     best_row = i.loc[i.res_ratio == best]
     zip_code = (best_row.zip.values).tolist()
