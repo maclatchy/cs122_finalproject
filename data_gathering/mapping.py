@@ -116,7 +116,7 @@ def community_profile_map(zip_code):
     ax2 = grocery.loc[grocery.zip == zip_code].plot(ax=ax1, color='blue', figsize=(20, 20))
     ax3 = parks.loc[parks.zip == zip_code].plot(ax=ax2, color='orange', figsize=(20, 20))
     ax4 = schools.loc[schools.zip == zip_code].plot(ax=ax3, color = 'yellow', figsize=(20, 20))
-    ax5 = cta_rail.loc[cta_rail.zip == zip_code].plot(ax=ax4, color = 'brown', figzise=(20, 20))
+    ax5 = cta_rail.loc[cta_rail.zip == zip_code].plot(ax=ax4, color = 'brown', figsize=(20, 20))
     final = zip_gdf.loc[zip_gdf.zip == zip_code].boundary.plot(ax=ax5, color= 'black', figsize=(20, 20))
     ctx.add_basemap(final, crs=zip_gdf.crs.to_string())
     plt.show()
