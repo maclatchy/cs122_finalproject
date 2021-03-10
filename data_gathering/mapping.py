@@ -9,8 +9,7 @@ import contextily as ctx
 zip_gdf = gpd.read_file("../data_files/chicago_zip_tracts.shp")
 zip_gdf.zip = zip_gdf.zip.astype(int)
 zip_gdf = zip_gdf.drop(['objectid'], axis=1)
-#census_gdf = gpd.read_file("../data_files/census_tract_boundaries.shp")
-#neighbor_gdf = gpd.read_file("../data_files/Neighborhoods_2012b.shp")
+zip_gdf = zip_gdf.dropna()
 
 # Grocery stores
 grocery = pd.read_csv('../data_files/grocery_stores.csv', usecols=[6, 10, 14, 15])
@@ -112,13 +111,13 @@ def community_profile_map(zip_code):
     Output:
       Map of zip code with library locations
     '''
-    ax = library.loc[library.zip == 60637].plot(color='green', figsize=(20, 20))
-    ax1 = health.loc[health.zip == 60637].plot(ax=ax, color='red', figsize=(20, 20))
-    ax2 = grocery.loc[grocery.zip == 60637].plot(ax=ax1, color='blue', figsize=(20, 20))
-    ax3 = parks.loc[parks.zip == 60637].plot(ax=ax2, color='orange', figsize=(20, 20))
-    ax4 = schools.loc[schools.zip == 60637].plot(ax=ax3, color = 'yellow', figsize=(20, 20))
-    hope = zip_gdf.loc[zip_gdf.zip == 60637].boundary.plot(ax=ax4, color= 'black', figsize=(20, 20))
-    ctx.add_basemap(hope, crs=zip_gdf.crs.to_string())
+    ax = library.loc[library.zip == zip_code].plot(color='green', figsize=(20, 20))
+    ax1 = health.loc[health.zip == zip_code].plot(ax=ax, color='red', figsize=(20, 20))
+    ax2 = grocery.loc[grocery.zip == zip_code].plot(ax=ax1, color='blue', figsize=(20, 20))
+    ax3 = parks.loc[parks.zip == zip_code].plot(ax=ax2, color='orange', figsize=(20, 20))
+    ax4 = schools.loc[schools.zip == zip_code].plot(ax=ax3, color = 'yellow', figsize=(20, 20))
+    final = zip_gdf.loc[zip_gdf.zip == zip_code].boundary.plot(ax=ax4, color= 'black', figsize=(20, 20))
+    ctx.add_basemap(final, crs=zip_gdf.crs.to_string())
     return
 
 community_profile_map(60637)
