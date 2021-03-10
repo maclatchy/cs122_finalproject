@@ -61,7 +61,7 @@ sort_df = zip_recommendation.get_sorted_weights(preference_dict)
 print("\nThese zip codes match your entries the best:")
 print(sort_df.head(5))
 print('')
-
+'''
 # zip conversion
 life_exp = pd.read_csv('../data_files/il_life_expectancy.csv', usecols=[0,2,3,4])
 life_exp.columns = life_exp.columns.str.lower().str.strip()
@@ -115,4 +115,4 @@ for z in zips:
     data = (z,mi,le,num_s)
     tl.append(data)
 zip_information = pd.DataFrame(tl, columns=columns)
-# %%
+'''
