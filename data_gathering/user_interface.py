@@ -1,7 +1,16 @@
+#%%
 import pandas as pd
 import numpy as np
 import zip_recommendation
+import math
+'''
+import geopandas as gpd
+import matplotlib.pyplot as plt
+from shapely.geometry import Point
+import contextily as ctx
+'''
 
+#%%
 # User interface
 print("\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n"
       "\nWelcome to the Spike-Protein's final project!\n")
@@ -78,3 +87,32 @@ for index, row in income.iterrows():
         tup_lst.append(tup)
 
 zip_census_master = pd.DataFrame(tup_lst, columns=['zip', 'tract_id'])
+
+schools = pd.read_csv('../data_files/CPS.csv', usecols=[19, 67, 68])
+
+#missing zip codes in income but not census
+missing_zip = [60680,60691,60664]
+zips = list(map(int,income["zip_code"]))
+columns = ["zip_code","med_inc","lif_ex","schools"]
+tl = []
+for z in zips:
+    mi = income.loc[income["zip_code"] == z].values[0]
+    if(math.isnan(mi[0])):
+        mi = "NA"
+    else:
+        mi = int(mi[0])
+    if(z in missing_zip):
+        le = "NA"
+    else:
+        tract = zip_census_master.loc[zip_census_master["zip"] == z].values[0]
+        tract = tract[1]
+        if(life_exp.loc[life_exp["tract_id"] == tract].empty):
+            le = "NA"
+        else:
+            le = life_exp.loc[life_exp["tract_id"] == tract].values[0]
+            le = le[3]
+    num_s = len(schools[schools["Zip"] == z])
+    data = (z,mi,le,num_s)
+    tl.append(data)
+zip_information = pd.DataFrame(tl, columns=columns)
+# %%
