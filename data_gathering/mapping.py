@@ -102,23 +102,40 @@ to_drop = ['systemstop', 'objectid', 'street', 'cross_st', 'point_x',
 cta_bus.drop(columns=to_drop, inplace=True)
 cta_bus = cta_bus.dropna()
 
+color = {'grocery':'red',
+         'health':'blue',
+         'parks':'green',
+         'schools':'brown',
+         'cta_rail':'orange',
+         'library':'yellow'}
 
-def community_profile_map(zip_code):
+df_dict = {'grocery':grocery,
+           'health':health,
+           'parks':parks,
+           'schools':schools,
+           'cta_rail':cta_rail,
+           'library':library}
+
+params = ['grocery', 'cta_rail', 'health', 'library']
+
+def community_profile_map(zip_code, params):
     '''
     Input:
       zip (int): ZIP code
-
+      params (list): params to display
     Output:
       Map of zip code with locations
     '''
-    ax = library.loc[library.zip == zip_code].plot(color='green', figsize=(20, 20))
-    ax1 = health.loc[health.zip == zip_code].plot(ax=ax, color='red', figsize=(20, 20))
-    ax2 = grocery.loc[grocery.zip == zip_code].plot(ax=ax1, color='blue', figsize=(20, 20))
-    ax3 = parks.loc[parks.zip == zip_code].plot(ax=ax2, color='orange', figsize=(20, 20))
-    ax4 = schools.loc[schools.zip == zip_code].plot(ax=ax3, color = 'yellow', figsize=(20, 20))
-    final = zip_gdf.loc[zip_gdf.zip == zip_code].boundary.plot(ax=ax4, color= 'black', figsize=(20, 20))
-    ctx.add_basemap(final, crs=zip_gdf.crs.to_string())
+    if params == 'all':
+        params = ['grocery', 'health', 'parks', 
+                  'schools','cta_rail', 'library']
+    poly = zip_gdf.geometry.values[zip_gdf.zip == zip_code][0]
+    base = zip_gdf.loc[zip_gdf.zip == zip_code].boundary.plot(color= 'black', figsize=(20, 20))
+    for p in params:
+        new_p = list(map(lambda x: x.within(poly),df_dict[p].geometry))
+        ax = df_dict[p][new_p].plot(ax=base, color=color[p], figsize=(20, 20))
+    ctx.add_basemap(base, crs=zip_gdf.crs.to_string())
     plt.show()
     return
 
-community_profile_map(60615)
+community_profile_map(60614, params)
