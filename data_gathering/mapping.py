@@ -107,7 +107,16 @@ color = {'grocery':'red',
          'parks':'green',
          'schools':'brown',
          'cta_rail':'orange',
-         'library':'yellow'}
+         'library':'yellow',
+         'property':'purple'}
+
+label = {'grocery':'Grocery Stores',
+         'health':'Health Centers',
+         'parks':'Parks',
+         'schools':'Schools',
+         'cta_rail':'CTA Rail',
+         'library':'Libraries',
+         'property': 'Properties'}
 
 df_dict = {'grocery':grocery,
            'health':health,
@@ -121,6 +130,7 @@ def community_profile_map(zip_code, params):
     Input:
       zip (int): ZIP code
       params (list): params to display
+    
     Output:
       Map of zip code with locations
     '''
@@ -129,11 +139,14 @@ def community_profile_map(zip_code, params):
                   'schools','cta_rail', 'library']
     poly = zip_gdf.geometry.values[zip_gdf.zip == zip_code][0]
     base = zip_gdf.loc[zip_gdf.zip == zip_code].boundary.plot(color= 'black', 
-                                                              figsize=(20,20))
+                                                              figsize=(20,20),
+                                                              label='Zipcode')
     for p in params:
         new_p = list(map(lambda x: x.within(poly),df_dict[p].geometry))
         if any(new_p):
-            df_dict[p][new_p].plot(ax=base, color=color[p], figsize=(20,20))
+            df_dict[p][new_p].plot(ax=base, color=color[p], 
+                                   figsize=(20,20), label=label[p])
     ctx.add_basemap(base, crs=zip_gdf.crs.to_string())
+    base.legend()
     plt.show()
     return
