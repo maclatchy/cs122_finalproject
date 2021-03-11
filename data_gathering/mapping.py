@@ -116,8 +116,6 @@ df_dict = {'grocery':grocery,
            'cta_rail':cta_rail,
            'library':library}
 
-params = ['grocery', 'cta_rail', 'health', 'library']
-
 def community_profile_map(zip_code, params):
     '''
     Input:
@@ -126,16 +124,16 @@ def community_profile_map(zip_code, params):
     Output:
       Map of zip code with locations
     '''
-    if params == 'all':
+    if params[0] == 'all':
         params = ['grocery', 'health', 'parks', 
                   'schools','cta_rail', 'library']
     poly = zip_gdf.geometry.values[zip_gdf.zip == zip_code][0]
-    base = zip_gdf.loc[zip_gdf.zip == zip_code].boundary.plot(color= 'black', figsize=(20, 20))
+    base = zip_gdf.loc[zip_gdf.zip == zip_code].boundary.plot(color= 'black', 
+                                                              figsize=(20,20))
     for p in params:
         new_p = list(map(lambda x: x.within(poly),df_dict[p].geometry))
-        ax = df_dict[p][new_p].plot(ax=base, color=color[p], figsize=(20, 20))
+        if any(new_p):
+            df_dict[p][new_p].plot(ax=base, color=color[p], figsize=(20,20))
     ctx.add_basemap(base, crs=zip_gdf.crs.to_string())
     plt.show()
     return
-
-community_profile_map(60614, params)
