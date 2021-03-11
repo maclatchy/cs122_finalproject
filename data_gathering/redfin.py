@@ -8,6 +8,12 @@ import re
 import string
 import csv
 import time
+import geopandas as gpd
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+from shapely.geometry import Point
+import contextily as ctx
+
 
 def get_chi_zips():
     '''
@@ -77,16 +83,97 @@ def create_homelisting_tbl(link_df):
                 all_listings = True      
     return 
 
+'''
 # Cleaning redfin data
+og_redfin = pd.read_csv("all_listings.csv")
 redfin = pd.read_csv("all_listings.csv", usecols=[2, 3, 6, 7, 8, 
-                                                  9, 10, 11, 12, 17])
+                                                  9, 10, 11, 25, 26])
 redfin.columns = redfin.columns.str.lower()
 redfin.rename(columns={'zip or postal code':'zip', 'property type':'p_type', 
-                       'lot size':'lot_size', 'square feet':'sq_feet'}, inplace=True)
-to_drop = redfin.loc[(redfin.p_type == 'Parking') | (redfin.p_type == 'Vacant Lot')]
+                        'square feet':'sq_feet'}, inplace=True)
+to_drop = redfin.loc[(redfin.p_type == 'Parking') | (redfin.p_type == 'Vacant Lot') | (redfin.p_type == 'Vacant Land')
+                        | (redfin.address == "nan")]
 redfin.drop(to_drop.index, inplace=True)
 redfin.address = redfin.address.str.lower()
 duplicates = redfin[redfin.duplicated()]
 redfin.drop(duplicates.index, inplace=True)
+redfin.address = redfin.address.str.title()
+'''
+
+class PropertyMatch:
+
+    def __init__(self, zip_codes):
+        self.zip_codes = zip_codes
+
+    def property_matches(self, price, beds):
+        '''
+        Output a string list of the top two property matches
+        in each top-match zipcode.
+        
+        Inputs:
+        price (int): int. 1-5 representing relative housing cost
+        among the houses in the top-match zip codes. 1-least expensive, 
+        2-below average, 3-average, 4-expensive, 5-most expensive
+
+        Outputs:
+        string (str): string that has the property type, address, 
+        zipcode, price, number of bathrooms, community location, and 
+        square feet for each matched property
+        '''
+        redfin = pd.read_csv("redfin_clean.csv")
+        top_matches = []
+        sub = redfin[redfin["zip"].isin(self.zip_codes)].copy()
+        sub["quantile"] = pd.qcut(sub["price"], q = 5, precision = 0)
+        bin_labels = ["most expensive", "expensive", "average", "below average", "least expensive"]
+        sub['price_category'] = pd.qcut(sub['price'],
+                              q=[0, .2, .4, .6, .8, 1],
+                              labels=bin_labels)
+        sub_price = sub.loc[sub.price_category == price].copy()
+        sub_beds = sub_price.loc[sub.beds == beds]
+        sub_beds = sub_beds.reset_index(drop=True)
+        for z in self.zip_codes:
+            df = sub_beds.loc[sub_beds.zip == z]
+            df = df.iloc[:2,[0,1,2,3,5,6,7]].copy()
+            d = df.to_dict("index")
+            top_matches.append(d)
+        whole_s = ""
+        string = ""
+        n = 1
+        for p in top_matches:
+            s = ""
+            for key, val in p.items():
+                if whole_s != "":
+                    whole_s = whole_s + "\n" 
+                whole_s = str(n) + ". "
+                for k, v in val.items():
+                    s = str(k).title() + ": " + str(v) + ", " 
+                    whole_s = whole_s + s
+                whole_s = whole_s[:-2]
+                string = string + whole_s + "\n" + "\n"
+                n +=1   
+        return string 
+
+'''
+# Mapping Addresses (unfinished)
+# ["address", "zip", "price", "baths", "location", "sq_feet"]
+# Mapping
+# Load base layers
+props = PropertyMatch([60615, 60637])
+sub = props.property_matches("hi")
+zip_gdf = gpd.read_file("../data_files/chicago_zip_tracts.shp")
+zip_gdf.zip = zip_gdf.zip.astype(int)
+zip_gdf = zip_gdf.drop(['objectid'], axis=1)
+zip_gdf = zip_gdf.dropna()
+#crs = {'init':'epsg:4326'}
+geometry = [Point(xy) for xy in zip(sub["latitude"], sub["longitude"])]
+properties = gpd.GeoDataFrame(sub, crs = "EPSG:4326", geometry = geometry)
+properties = properties.dropna()
+ax = properties.loc[properties.zip == 60615].plot( color = "red", figsize = (20,20))
+#ax = properties[properties["zip"].isin(self.zips)].plot(ax = ax, color = "red", figsize = (20,20))
+#ax0 = zip_gdf.loc[zip_gdf.zip == 60615].geometry.boundary.plot(ax = ax, color = "black", figsize = (20,20))
+ctx.add_basemap(ax, crs=zip_gdf.crs.to_string())
+plt.show()
+'''
+
 
 
