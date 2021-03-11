@@ -60,7 +60,7 @@ geometry = [Point(xy) for xy in zip(parks.lon, parks.lat)]
 parks = gpd.GeoDataFrame(parks, crs="EPSG:4326", geometry=geometry)
 parks.drop(columns=['lat', 'lon'], inplace=True)
 # Wrong zip codes
-parks = parks.drop([372, 1451])
+parks = parks.drop([185, 372, 1451])
 parks = parks.dropna()
 
 
@@ -116,10 +116,10 @@ def community_profile_map(zip_code):
     ax2 = grocery.loc[grocery.zip == zip_code].plot(ax=ax1, color='blue', figsize=(20, 20))
     ax3 = parks.loc[parks.zip == zip_code].plot(ax=ax2, color='orange', figsize=(20, 20))
     ax4 = schools.loc[schools.zip == zip_code].plot(ax=ax3, color = 'yellow', figsize=(20, 20))
-    ax5 = cta_rail.loc[cta_rail.zip == zip_code].plot(ax=ax4, color = 'brown', figsize=(20, 20))
-    final = zip_gdf.loc[zip_gdf.zip == zip_code].boundary.plot(ax=ax5, color= 'black', figsize=(20, 20))
+    #ax5 = cta_rail.loc[cta_rail.zip == zip_code].plot(ax=ax4, color = 'brown', figsize=(20, 20))
+    final = zip_gdf.loc[zip_gdf.zip == zip_code].boundary.plot(ax=ax4, color= 'black', figsize=(20, 20))
     ctx.add_basemap(final, crs=zip_gdf.crs.to_string())
     plt.show()
     return
 
-community_profile_map(60601)
+community_profile_map(60615)
