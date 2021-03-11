@@ -1,4 +1,3 @@
-#%%
 import pandas as pd
 import numpy as np
 import zip_recommendation
@@ -79,15 +78,16 @@ def is_range(rank):
         rank = input()
         return is_range(rank)
 '''
-#%%
 
-attribute_dict = {"grocery_stores":"Question: how important is proximity to grocery stores for you? \n",
-                  "parks":"Question: how important is proximity to parks for you? \n",
-                  "libraries":"Question: how important is proximity to public libraries for you? \n",
-                  "health_centers":"Question: how important is proximity to health centers for you? \n",
-                  "cta_train_stops":"Question: how important is proximity to CTA TRAIN stops for you? \n",
-                  "cta_bus_stops":"Question: how important is proximity to CTA BUS stops for you? \n",
-                  "crimes":"Question: how important is the local crime level to you? \n"}
+error_value = "Sorry, I didn't catch that. Did you say '1', '2', '3', '4' or '5'?"
+
+attribute_dict = {"grocery_stores":"Question: how important is proximity to grocery stores for you? \U0001F34E \U0001F96C \U0001F25E \n",
+                  "parks":"Question: how important is proximity to parks for you? \U0001F343 \U0001F31E \U0001F3C3 \n",
+                  "libraries":"Question: how important is proximity to public libraries for you? \U0001F4DA \U0001F453 \U0001F3E0 \n",
+                  "health_centers":"Question: how important is proximity to health centers for you? \U0001F9D1 \U000F2764 \U0001F3E5 \n",
+                  "cta_train_stops":"Question: how important is proximity to CTA TRAIN stops for you? \U0001F687 \U0001F68D \U0001F698 \n",
+                  "cta_bus_stops":"Question: how important is proximity to CTA BUS stops for you? \U0001F687 \U0001F68D \U0001F698 \n",
+                  "crimes":"Question: how important is the local crime level to you? \U0001F303 \U0001F977 \U0001F4B0 \n"}
 
 preference_dict = dict()
 
@@ -103,10 +103,10 @@ def get_score(attribute):
         try:
             data = int(data)
         except:
-            print("\nYou did not enter a valid whole number.\n")
+            print("\n" + error_value + "\n")
             continue
         if data > 5 or data < 0:
-            print("\nThe number you entered was not in the range [0, 5].\n")
+            print("\n" + error_value + "\n")
             continue
         else:
             preference_dict[('z_' + attribute)] = data
