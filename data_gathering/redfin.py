@@ -99,11 +99,12 @@ duplicates = redfin[redfin.duplicated()]
 redfin.drop(duplicates.index, inplace=True)
 redfin.address = redfin.address.str.title()
 '''
-
+#%%
 class PropertyMatch:
 
     def __init__(self, zip_codes):
         self.zip_codes = zip_codes
+        
 
     def property_matches(self, price, beds):
         '''
@@ -114,23 +115,15 @@ class PropertyMatch:
         price (int): int. 1-5 representing relative housing cost
         among the houses in the top-match zip codes. 1-least expensive, 
         2-below average, 3-average, 4-expensive, 5-most expensive
+        beds (int): number of desired beds, minimum 1 and maximum 5
 
         Outputs:
         string (str): string that has the property type, address, 
         zipcode, price, number of bathrooms, community location, and 
         square feet for each matched property
         '''
-        redfin = pd.read_csv("redfin_clean.csv")
         top_matches = []
-        sub = redfin[redfin["zip"].isin(self.zip_codes)].copy()
-        sub["quantile"] = pd.qcut(sub["price"], q = 5, precision = 0)
-        bin_labels = ["most expensive", "expensive", "average", "below average", "least expensive"]
-        sub['price_category'] = pd.qcut(sub['price'],
-                              q=[0, .2, .4, .6, .8, 1],
-                              labels=bin_labels)
-        sub_price = sub.loc[sub.price_category == price].copy()
-        sub_beds = sub_price.loc[sub.beds == beds]
-        sub_beds = sub_beds.reset_index(drop=True)
+        sub_beds = self.all_property_matches(price, beds)
         for z in self.zip_codes:
             df = sub_beds.loc[sub_beds.zip == z]
             df = df.iloc[:2,[0,1,2,3,5,6,7]].copy()
@@ -141,7 +134,7 @@ class PropertyMatch:
         n = 1
         for p in top_matches:
             s = ""
-            for key, val in p.items():
+            for _, val in p.items():
                 if whole_s != "":
                     whole_s = whole_s + "\n" 
                 whole_s = str(n) + ". "
@@ -152,6 +145,34 @@ class PropertyMatch:
                 string = string + whole_s + "\n" + "\n"
                 n +=1   
         return string 
+
+
+    def all_property_matches(self, price, beds):
+        '''
+        Creates a pandas DataFrame with all property matches 
+        given a person's price range and the number of beds desired
+
+        Inputs:
+        price (int): int. 1-5 representing relative housing cost
+        among the houses in the top-match zip codes. 1-least expensive, 
+        2-below average, 3-average, 4-expensive, 5-most expensive
+        beds (int): number of desired beds, minimum 1 and maximum 5
+
+        Outputs:
+        sub_beds (DataFrame): pandas DataFrame containing 
+        the property matches for the user's given inputs
+        '''
+        redfin = pd.read_csv("redfin_clean.csv")
+        sub = redfin[redfin["zip"].isin(self.zip_codes)].copy()
+        sub["quantile"] = pd.qcut(sub["price"], q = 5, precision = 0)
+        bin_labels = ["most expensive", "expensive", "average", "below average", "least expensive"]
+        sub['price_category'] = pd.qcut(sub['price'],
+                              q=[0, .2, .4, .6, .8, 1],
+                              labels=bin_labels)
+        sub_price = sub.loc[sub.price_category == price].copy()
+        sub_beds = sub_price.loc[sub.beds == beds]
+        sub_beds = sub_beds.reset_index(drop=True)
+        return sub_beds
 
 '''
 # Mapping Addresses (unfinished)
