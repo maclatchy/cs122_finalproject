@@ -1,3 +1,4 @@
+#%%
 import numpy as np
 import pandas as pd
 import requests
@@ -13,7 +14,7 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 from shapely.geometry import Point
 import contextily as ctx
-
+#%%
 
 def get_chi_zips():
     '''
@@ -104,7 +105,8 @@ class PropertyMatch:
 
     def __init__(self, zip_codes):
         self.zip_codes = zip_codes
-        
+        self.price_dict = price_dict = {1:"least expensive", 2:"below average", 3:"average",
+                        4:"more expensive", 5:"most expensive"}
 
     def property_matches(self, price, beds):
         '''
@@ -124,6 +126,7 @@ class PropertyMatch:
         '''
         top_matches = []
         sub_beds = self.all_property_matches(price, beds)
+        price = self.price_dict[price]            
         for z in self.zip_codes:
             df = sub_beds.loc[sub_beds.zip == z]
             df = df.iloc[:2,[0,1,2,3,5,6,7]].copy()
@@ -143,7 +146,9 @@ class PropertyMatch:
                     whole_s = whole_s + s
                 whole_s = whole_s[:-2]
                 string = string + whole_s + "\n" + "\n"
-                n +=1   
+                n +=1
+        if string == "":
+            string = "No homes with {} bedroom(s) are within your price range.".format(beds)   
         return string 
 
 
@@ -163,6 +168,7 @@ class PropertyMatch:
         the property matches for the user's given inputs
         '''
         redfin = pd.read_csv("redfin_clean.csv")
+        price = self.price_dict[price]
         sub = redfin[redfin["zip"].isin(self.zip_codes)].copy()
         sub["quantile"] = pd.qcut(sub["price"], q = 5, precision = 0)
         bin_labels = ["most expensive", "expensive", "average", "below average", "least expensive"]
@@ -198,3 +204,5 @@ plt.show()
 
 
 
+
+# %%
