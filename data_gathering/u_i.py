@@ -1,11 +1,12 @@
+#%%
 import pandas as pd
 import numpy as np
 import zip_recommendation
 import math
-import geopandas as gpd
-import matplotlib.pyplot as plt
-from shapely.geometry import Point
-import contextily as ctx
+#import geopandas as gpd
+#import matplotlib.pyplot as plt
+#from shapely.geometry import Point
+#import contextily as ctx
 
 # little introduction :)
 intro = ["Welcome to our Neighborhood matcher! \U0001F60A\U0001F3D9\n [ press enter to continue ]\n"]
@@ -60,7 +61,26 @@ sort_df = zip_recommendation.get_sorted_weights(preference_dict)
 print("\nThese zip codes match your entries the best:")
 print(sort_df.head(5))
 print('')
+#get top 5 zipcodes then make class object for proerty return
+property_zips = sort_df["zipcode"].tolist()[:5]
 
+#Give information for any requested Chicago zipcode
+stats_df = pd.read_csv('../data_gathering/zip_stats.csv')
+available_zips = stats_df["zip_code"].tolist()
+while True:
+    zip_inquiry = input("Please enter a Chicago zip code for more information:")
+    try:
+        zip_inquiry = int(zip_inquiry)
+    except:
+        print("\n Sorry. Could you re-enter a numeric zip code")
+    if zip_inquiry in available_zips:
+        print(stats_df.loc[stats_df["zip_code"] == zip_inquiry])
+        break
+    else:
+        print("\n We didn't recognize that as a Chicago zip code")
+        continue
+#%%
+'''
 # zip conversion
 life_exp = pd.read_csv('../data_files/il_life_expectancy.csv', usecols=[0,2,3,4])
 life_exp.columns = life_exp.columns.str.lower().str.strip()
@@ -108,3 +128,4 @@ for z in zips:
     data = (z,mi,le,num_s)
     tl.append(data)
 zip_information = pd.DataFrame(tl, columns=columns)
+'''
