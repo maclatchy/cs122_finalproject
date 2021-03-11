@@ -2,12 +2,11 @@ import pandas as pd
 import numpy as np
 import zip_recommendation
 import math
-'''
 import geopandas as gpd
 import matplotlib.pyplot as plt
 from shapely.geometry import Point
 import contextily as ctx
-'''
+
 # little introduction :)
 intro = ["Welcome to our Neighborhood matcher! \U0001F60A\U0001F3D9\n [ press enter to continue ]\n"]
 intro.append("I'm sure you're excited to meet your perfect neighborhood in Chicago,")
@@ -19,72 +18,12 @@ for line in intro:
     print(line)
     input()
 
-
-'''# questions 
-print("So, how do you feel about books? Do you like having libraries by your house? ", "\U0001F4DA", "\U0001F453", "\U0001F3E0", "\n")
-print("1- nope, I'm actually allergic to reading, 5- libraries near me are a plus")
-lib_rank = input()
-lib_rank = is_range(lib_rank)
-
-print("I see. What about parks? Do you like those? ", "\U0001F343", "\U0001F31E", "\U0001F3C3", "\n")
-print("1-  I actually don't mind them, 5- yess")
-park_rank = input()
-park_rank = is_range(park_rank)
-
-print("Awesome, same. Groceries stores?", "\U0001F34E", "\U0001F96C", "\U0001F25E", "\n")
-print("1- I don't care, 5- very important!")
-groc_rank = input()
-groc_rank = is_range(groc_rank)
-
-print("uh huh. alrighty. What about health facilities? ", "\U0001F9D1", "\U000F2764" "\U0001F3E5", "\n")
-print("1- nope, don't care, 5- yes!")
-health_rank = input()
-health_rank = is_range(health_rank)
-
-print("okay, okay. And... schools?" "\U0001F9D2","\U0001F6B8", "\U0001F3EB", "\n")
-print("1- nah, I don't need schools around me, 5- yep, schools would be good")
-school_rank = input()
-school_rank = is_range(school_rank)
-
-print("And will you be taking buses or subways often?", "\U0001F687", "\U0001F68D", "\U0001F698", "\n")
-print("1- I have a car so..., to 5- Yesss, CTA, brrr")
-cta_rank = input()
-cta_rank = is_range(cta_rank)
-
-print("Okay, we're almost finished, I promise\n")
-print("How important is the safety of the neighborhood?", "\U0001F303", "\U0001F977", "\U0001F4B0" "\n")
-print("1- I could live in Gotham city, to 5- no crimes please!")
-safe_rank = input()
-safe_rank = is_range(safe_rank)
-
-print("Okie Dokie. Last question! What is our rent budget($) ?")
-cost = input()
-
-print("Alright, thank you so much!")
-'''
-'''
-def is_range(rank):
-    
-    Certifies that the number given is within 1-5.
-
-    Inputs: 
-        rank: (str) to be evaluated
-    
-
-    if int(rank) >= 1 and int(rank) <= 5:
-        return rank
-    else: 
-        print("Sorry, I didn't catch that. Did you say '1', '2', '3', '4' or '5'?")
-        rank = input()
-        return is_range(rank)
-'''
-
 error_value = "Sorry, I didn't catch that. Did you say '1', '2', '3', '4' or '5'?"
 
-attribute_dict = {"grocery_stores":"Question: how important is proximity to grocery stores for you? \U0001F34E \U0001F96C \U0001F25E \n",
+attribute_dict = {"grocery_stores":"Question: how important is proximity to grocery stores for you? \U0001F34E \U0001F96C \U0001F35E \n",
                   "parks":"Question: how important is proximity to parks for you? \U0001F343 \U0001F31E \U0001F3C3 \n",
                   "libraries":"Question: how important is proximity to public libraries for you? \U0001F4DA \U0001F453 \U0001F3E0 \n",
-                  "health_centers":"Question: how important is proximity to health centers for you? \U0001F9D1 \U000F2764 \U0001F3E5 \n",
+                  "health_centers":"Question: how important is proximity to health centers for you? \U0001F9D1 \U0001F9E1 \U0001F3E5 \n",
                   "cta_train_stops":"Question: how important is proximity to CTA TRAIN stops for you? \U0001F687 \U0001F68D \U0001F698 \n",
                   "cta_bus_stops":"Question: how important is proximity to CTA BUS stops for you? \U0001F687 \U0001F68D \U0001F698 \n",
                   "crimes":"Question: how important is the local crime level to you? \U0001F303 \U0001F977 \U0001F4B0 \n"}
@@ -121,7 +60,7 @@ sort_df = zip_recommendation.get_sorted_weights(preference_dict)
 print("\nThese zip codes match your entries the best:")
 print(sort_df.head(5))
 print('')
-'''
+
 # zip conversion
 life_exp = pd.read_csv('../data_files/il_life_expectancy.csv', usecols=[0,2,3,4])
 life_exp.columns = life_exp.columns.str.lower().str.strip()
@@ -169,4 +108,3 @@ for z in zips:
     data = (z,mi,le,num_s)
     tl.append(data)
 zip_information = pd.DataFrame(tl, columns=columns)
-'''
