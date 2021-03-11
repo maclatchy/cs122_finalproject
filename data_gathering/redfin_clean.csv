@@ -1,4 +1,4 @@
-p_type,address,zip,price,beds,baths,location,sq_feet,latitude,longitude
+property_type,address,zip,price,beds,baths,location,sq_feet,latitude,longitude
 Condo/Co-op,201 N Westshore Dr #2208,60601,495500.0,2.0,2.5,Loop,1295.0,41.8861967,-87.6159291
 Condo/Co-op,200 N Dearborn St #1006,60601,307500.0,2.0,2.0,Loop,1200.0,41.8860644,-87.6298907
 Condo/Co-op,195 N Harbor Dr #4808,60601,499900.0,2.0,2.0,Loop,1287.0,41.8855212,-87.6146956
