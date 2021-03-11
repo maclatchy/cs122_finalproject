@@ -2,6 +2,7 @@
 import pandas as pd
 import numpy as np
 import zip_recommendation
+import redfin
 import math
 #import geopandas as gpd
 #import matplotlib.pyplot as plt
@@ -29,6 +30,8 @@ attribute_dict = {"grocery_stores":"Question: how important is proximity to groc
                   "cta_bus_stops":"Question: how important is proximity to CTA BUS stops for you? \U0001F687 \U0001F68D \U0001F698 \n",
                   "crimes":"Question: how important is the local crime level to you? \U0001F303 \U0001F977 \U0001F4B0 \n"}
 
+property_attribute_dict = {"price":"Question: what price range do you desire (1=least expensive, 5=most expensive",
+                            "beds":"Question: how many beds do you want (1-5)"}
 preference_dict = dict()
 
 def get_score(attribute):
@@ -54,6 +57,25 @@ def get_score(attribute):
     print('\nThank you!\n')
     return
 
+def get_property_score(p_attribute):
+    '''
+    Same as get_score but not connected to z-score dataframe
+    '''
+    question = property_attribute_dict[p_attribute]
+    while True:
+        d = input(question)
+        try:
+            d = int(d)
+        except:
+            print("\n" + error_value + "\n")
+            continue
+        if d > 5 or d < 0:
+            print("\n" + error_value + "\n")
+            continue
+        else:
+            print('\nThank you!\n') 
+            return d   
+
 # Get preferences and display zipcodes
 for key in attribute_dict.keys():
     get_score(key)
@@ -61,8 +83,14 @@ sort_df = zip_recommendation.get_sorted_weights(preference_dict)
 print("\nThese zip codes match your entries the best:")
 print(sort_df.head(5))
 print('')
+
 #get top 5 zipcodes then make class object for proerty return
 property_zips = sort_df["zipcode"].tolist()[:5]
+p_object = redfin.PropertyMatch(property_zips)
+price = get_property_score("price")
+beds = get_property_score("beds")
+print("Here are available properties from the recommended neighborhoods: \n")
+print(p_object.property_matches(price,beds))
 
 #Give information for any requested Chicago zipcode
 stats_df = pd.read_csv('../data_gathering/zip_stats.csv')
