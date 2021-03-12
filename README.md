@@ -8,7 +8,7 @@ Well, look no further! Our program allows users to rank on a 1-5 scale (1 not im
 ### **Get Started**
 To deploy our program, clone our repository on your local device and run the following:
 ```
-python3 u_i.py 
+$python3 u_i.py 
 ```
 Follow the onscreen prompts and find the Chicago neighborhood that's best for you!
 
