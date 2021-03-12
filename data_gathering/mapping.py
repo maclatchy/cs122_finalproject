@@ -12,7 +12,8 @@ zip_gdf = zip_gdf.drop(['objectid'], axis=1)
 zip_gdf = zip_gdf.dropna()
 
 # Grocery stores
-grocery = pd.read_csv('../data_files/grocery_stores.csv', usecols=[6, 10, 14, 15])
+grocery = pd.read_csv('../data_files/grocery_stores.csv', 
+                      usecols=[6, 10, 14, 15])
 grocery.columns = grocery.columns.str.lower()
 grocery.rename(columns = {'zip_code':'zip'}, inplace = True) 
 geometry = [Point(xy) for xy in zip(grocery.longitude, grocery.latitude)]
@@ -23,8 +24,10 @@ grocery = grocery.dropna()
 health = pd.read_csv('../data_files/health_centers.csv', usecols=[1,4])
 health.columns = health.columns.str.lower().str.strip()
 health[['zip']] = health.address.str.extract(r'(\d{5})')
-health[['lat']] = health.address.str.split('(').str.get(1).str.split(',').str.get(0)
-health[['lon']] = health.address.str.split('(').str.get(1).str.split(',').str.get(1).str.strip(')')
+health[['lat']] = health.address.str.split('(').str.get(1) \
+    .str.split(',').str.get(0)
+health[['lon']] = health.address.str.split('(').str.get(1) \
+    .str.split(',').str.get(1).str.strip(')')
 health.drop(columns=['address'], inplace=True)
 health.zip = health.zip.astype(int)
 health.lat = health.lat.astype(float)
@@ -134,9 +137,8 @@ def community_profile_map(zip_code, params):
     '''
     if len(params) == 0:
         poly = zip_gdf.geometry.values[zip_gdf.zip == zip_code][0]
-        base = zip_gdf.loc[zip_gdf.zip == zip_code].boundary.plot(color= 'black', 
-                                                              figsize=(20,20),
-                                                              label='Zipcode')
+        base = zip_gdf.loc[zip_gdf.zip == zip_code].boundary \
+            .plot(color='black',figsize=(20,20),label='Zipcode')
         ctx.add_basemap(base, crs=zip_gdf.crs.to_string())
         base.legend()
         plt.show()
@@ -145,7 +147,7 @@ def community_profile_map(zip_code, params):
         params = ['grocery', 'health', 'parks', 
                   'schools','cta_rail', 'library']
     poly = zip_gdf.geometry.values[zip_gdf.zip == zip_code][0]
-    base = zip_gdf.loc[zip_gdf.zip == zip_code].boundary.plot(color= 'black', 
+    base = zip_gdf.loc[zip_gdf.zip == zip_code].boundary.plot(color='black', 
                                                               figsize=(20,20),
                                                               label='Zipcode')
     for p in params:
