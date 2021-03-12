@@ -1,6 +1,6 @@
 ### cs122_finalproject
 
-# **Moving to Chicago and Don't Know Where to Live? Look No Further!\
+# **Moving to Chicago and Don't Know Where to Live? Look No Further!/
 Chicago Neighborhood and Property Finder**
 
 ## **Project Description**
