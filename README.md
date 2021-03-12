@@ -13,28 +13,28 @@ This project helps individuals moving to Chicago find potential neighborhoods an
 
 ## **Table of Contents**
 ### Functions and Programs
-* [u_i.py](https://github.com/emmachancellor/cs122_finalproject/blob/main/data_gathering/u_i.py)\
+* [u_i.py](https://github.com/emmachancellor/cs122_finalproject/blob/main/data_gathering/u_i.py)
     * The main user interface file that can be called in the terminal to start up the program
-* [mapping.py](https://github.com/emmachancellor/cs122_finalproject/blob/main/data_gathering/mapping.py)\
+* [mapping.py](https://github.com/emmachancellor/cs122_finalproject/blob/main/data_gathering/mapping.py)
     * Contains mapping functionality functions and creation of GeoPandas DataFrames
-* [z_weight.py](https://github.com/emmachancellor/cs122_finalproject/blob/main/data_gathering/z_weight.py)\
-    Function for creating z-scores for each zip code and adding it to our table with the counts of each community factor per zip code
-* [zip_recommendation.py](https://github.com/emmachancellor/cs122_finalproject/blob/main/data_gathering/zip_recommendation.py)\
-    Function that gathers top recommended zip codes based on the user's input and the weighted z-scores for each zip code
-* [redfin.py](https://github.com/emmachancellor/cs122_finalproject/blob/main/data_gathering/redfin.py)\
-    Gets the top 300 property listings in every Chicago zip code from Redfin.com and cleans results\
-    Creates the PropertyMatch class that has methods to produce a DataFrame of match results, a string that can be printed and lists the top two property matches from each matched zip code, and creates a GeoDataFrame with properties
+* [z_weight.py](https://github.com/emmachancellor/cs122_finalproject/blob/main/data_gathering/z_weight.py)
+    * Function for creating z-scores for each zip code and adding it to our table with the counts of each community factor per zip code
+* [zip_recommendation.py](https://github.com/emmachancellor/cs122_finalproject/blob/main/data_gathering/zip_recommendation.py)
+    * Function that gathers top recommended zip codes based on the user's input and the weighted z-scores for each zip code
+* [redfin.py](https://github.com/emmachancellor/cs122_finalproject/blob/main/data_gathering/redfin.py)
+    * Gets the top 300 property listings in every Chicago zip code from Redfin.com and cleans results
+    * Creates the PropertyMatch class that has methods to produce a DataFrame of match results, a string that can be printed and lists the top two property matches from each matched zip code, and creates a GeoDataFrame with properties
 
 ## Data Scraping and Cleaning
-* [count_table.py](https://github.com/emmachancellor/cs122_finalproject/blob/main/data_files/count_table.py)\
+* [count_table.py](https://github.com/emmachancellor/cs122_finalproject/blob/main/data_files/count_table.py)
     Creates a table with the counts of the number of libraries, grocery stores, CTA bus stops, CTA train stops, parks, health centers, crimes (from 2015 to present) in each zip code.
-* [parks_scrape.py](https://github.com/emmachancellor/cs122_finalproject/blob/main/data_gathering/parks_scrape.py)\
-    Finds the address and zip code for all park facilities in Chicago
-* [shape_files.py](https://github.com/emmachancellor/cs122_finalproject/blob/main/data_gathering/shape_files.py)\
-    Loads shape files for mapping from the Chicago Data Portal and previsouly downloaded files in the repository
-* [zip_info.py](https://github.com/emmachancellor/cs122_finalproject/blob/main/data_gathering/zip_info.py)\
-    Creates a table with life expectancy, number of schools, and median income for each zip code
-* [parks_latlon.py](https://github.com/emmachancellor/cs122_finalproject/blob/main/data_files/parks_latlon.py)\
-    Finds the lattitude and longitude of Chicago parks
+* [parks_scrape.py](https://github.com/emmachancellor/cs122_finalproject/blob/main/data_gathering/parks_scrape.py)
+    * Finds the address and zip code for all park facilities in Chicago
+* [shape_files.py](https://github.com/emmachancellor/cs122_finalproject/blob/main/data_gathering/shape_files.py)
+    * Loads shape files for mapping from the Chicago Data Portal and previsouly downloaded files in the repository
+* [zip_info.py](https://github.com/emmachancellor/cs122_finalproject/blob/main/data_gathering/zip_info.py)
+    * Creates a table with life expectancy, number of schools, and median income for each zip code
+* [parks_latlon.py](https://github.com/emmachancellor/cs122_finalproject/blob/main/data_files/parks_latlon.py)
+    * Finds the lattitude and longitude of Chicago parks
 
 
