@@ -1,7 +1,6 @@
 ### cs122_finalproject
 
-# **Moving to Chicago and Don't Know Where to Live? Look No Further!/
-Chicago Neighborhood and Property Finder**
+# **Moving to Chicago and Don't Know Where to Live? Look No Further! Chicago Neighborhood and Property Finder**
 
 ## **Project Description**
 Our project will allow users to input personal information such as age, gender, race, income, and the Chicago neighborhood that they live in and receive an estimate of their life expectancy based on these factors. Once given this initial output, users will be able to interact with sliding scales to adjust their input factors and see how their life expectancy may change as they alter their original input factors. 
