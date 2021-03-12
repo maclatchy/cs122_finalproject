@@ -27,7 +27,7 @@ This project helps individuals moving to Chicago find potential neighborhoods an
 
 ### Data Scraping and Cleaning
 * [count_table.py](https://github.com/emmachancellor/cs122_finalproject/blob/main/data_files/count_table.py)
-    Creates a table with the counts of the number of libraries, grocery stores, CTA bus stops, CTA train stops, parks, health centers, crimes (from 2015 to present) in each zip code.
+    Creates a table with the counts of the number of libraries, grocery stores, CTA bus stops, CTA train stops, parks, health centers, crimes (from 2015 to present) in each zip code
 * [parks_scrape.py](https://github.com/emmachancellor/cs122_finalproject/blob/main/data_gathering/parks_scrape.py)
     * Finds the address and zip code for all park facilities in Chicago
 * [shape_files.py](https://github.com/emmachancellor/cs122_finalproject/blob/main/data_gathering/shape_files.py)
