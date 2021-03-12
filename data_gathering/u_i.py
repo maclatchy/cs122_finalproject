@@ -141,6 +141,7 @@ while True:
                 print('\nPlease respond with [y or n].\n')
         break
     elif 'n' == response.lower():
+        new_response = None
         break
     else:
         print('\nPlease respond with [y or n]\n')
@@ -153,32 +154,60 @@ p_dict = {1:'grocery',
           5:'cta_rail', 
           6:'library'}
 
+res = 0
+fail = 0
 while True:
-    if new_response == 'n':
+    while True:
+        if response == 'n':
+            break
+        if res == 'n':
+            break
+        if fail == 'fail':
+            break
+        print('\nPlease input one number corresponding to the amenity you would' 
+            ' like to see.\n')
+        print("\nPlease type 'done' when you don't want to see any additional"
+            " amenities.\n")
+        num = input('\n1=grocery, 2=health, 3=parks, 4=schools, 5=cta_rail,'
+                    ' 6=library\n')
+        if num.lower() == 'done':
+            mapping.community_profile_map(zip_inquiry, list(param_s))
+            break 
+        try:
+            num = int(num)
+        except:
+            continue
+        if num < 0 or num > 6:
+            print('\nPlease enter a number between 1 and 6.\n')
+            continue
+        else:
+            param_s.add(p_dict[num])
+            continue
+    res = input('\nWould you like to see a different zipcode [y or n]?\n')
+    if res.lower() == 'y':
+        new_zip = input('\nPlease input zipcode.\n')
+        print('Available zipcodes:', available_zips)
+        try:
+            zip_inquiry = int(new_zip)
+        except:
+            print('\nPlease enter a valid zipcode.\n')
+            fail = 'fail'
+            continue
+        if zip_inquiry in available_zips:
+            fail = None
+            continue
+        else:
+            print('\nPlease enter a valid Chicago zipcode.\n')
+            continue
+    elif res.lower() == 'n':
         break
-    print('\nPlease input one number corresponding to the amenity you would' 
-          ' like to see.\n')
-    print("\nPlease type 'done' when you don't want to see any additional"
-          " amenities.\n")
-    num = input('\n1=grocery, 2=health, 3=parks, 4=schools, 5=cta_rail,'
-                ' 6=library\n')
-    if num.lower() == 'done':
-        mapping.community_profile_map(zip_inquiry, list(param_s))
-        break 
-    try:
-        num = int(num)
-    except:
-        continue
-    if num < 0 or num > 6:
-        print('\nPlease enter a number between 1 and 6.\n')
-        continue
     else:
-        param_s.add(p_dict[num])
+        print('\nplease enter y or n.\n')
         continue
 
 while True:
     response = input("\nWould you like to download a complete list of"
-                     " properties that match your criteria? [y or n]\n")
+                     " properties that match your criteria [y or n]?\n")
     if 'y' == response.lower():
         stats = pd.read_csv("zip_stats.csv")
         stats = stats.rename(columns={"zip_code":"zip"})
