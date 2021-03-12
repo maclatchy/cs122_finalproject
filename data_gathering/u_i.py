@@ -108,14 +108,12 @@ while True:
         print("\n We didn't recognize that as a Chicago zip code")
         continue
 
-properties = p_object.get_prop_geom(price, beds)
-
 while True:
     response = input('\nWould you like to see a map of {}? [y or n]\n'.format(str(zip_inquiry)))
     if 'y' == response.lower():
         zip_inquiry = int(zip_inquiry)
         params = ['all']
-        mapping.community_profile_map(zip_inquiry, params, properties)
+        mapping.community_profile_map(zip_inquiry, params)
         while True:
             new_response = input('\nWould you like to see specific amenities [y or n]?\n')
             if 'y' == new_response.lower() or 'n' == new_response.lower():
@@ -143,7 +141,7 @@ while True:
     print("\nPlease type 'done' when you don't want to see any additional amenities.\n")
     num = input('\n1=grocery, 2=health, 3=parks, 4=schools, 5=cta_rail, 6=library\n')
     if num.lower() == 'done':
-        mapping.community_profile_map(zip_inquiry, list(param_s), properties)
+        mapping.community_profile_map(zip_inquiry, list(param_s))
         break 
     try:
         num = int(num)
