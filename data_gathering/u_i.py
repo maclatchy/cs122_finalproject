@@ -1,4 +1,3 @@
-#%%
 import pandas as pd
 import numpy as np
 import zip_recommendation
@@ -108,7 +107,7 @@ while True:
     else:
         print("\n We didn't recognize that as a Chicago zip code")
         continue
-#%%
+
 while True:
     response = input('\nWould you like to see a map of {}? [y or n]\n'.format(str(zip_inquiry)))
     if 'y' == response.lower():
