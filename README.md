@@ -5,6 +5,13 @@
 ## **Project Description**
 Well, look no further! Our program allows users to rank on a 1-5 scale (1 not important -  5 very important) their preferences on number of nearby grocery stores, parks, health centers, CTA train stops, CTA bus stops, and the level of crime they are looking for in a neighborhood. After answering their neighborhood preferences, they will receive a list of the top five zip codes that match their community preferences. The user can learn more about a particular zip code: median income, number of schools, and life expectancy. From here the user will be able to find properties for sale in their matched community. The user will input the number of bedrooms they are looking for in a property as well as the relative price range the would like on a scale of 1-5, 1 being least expensive and 5 being most expensive. After inputting this information, the user will recieve the top two property matches in each of the five matched zip codes. The user will then be able to better visualize their potential community by choosing to view a map of a selected zip code that shows the location of user-selected community ammenities. Finally, the user will be able to download a .csv file with all of the properties that match their preferences. 
 
+### **Get Started**
+To deploy our program, clone our repository on your local device and run the following:
+```
+$python3 u_i.py 
+```
+Follow the onscreen prompts and find the Chicago neighborhood that's best for you!
+
 ## **Preference Ranking System**
 Our ranking system uses weighted averages based on the relative frequency of ammenities or occurence of crime in each zip code to calculate scores for each zip code. A user's preferences are used to calculate an overall preference scores for each zip code. The user will receive an outpul with the top five zip codes corresponding to the highest calculated overall preference scores. 
 
