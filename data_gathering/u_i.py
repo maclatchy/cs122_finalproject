@@ -109,16 +109,19 @@ print(p_object.property_matches(price,beds))
 stats_df = pd.read_csv('../data_gathering/zip_stats.csv')
 available_zips = stats_df["zip_code"].tolist()
 while True:
-    zip_inquiry = input("Please enter a Chicago zip code for more information:")
+    zip_inquiry = input("Please enter a Chicago zip code in the recommended" 
+                        " neighborhoods for more information:\n")
     try:
         zip_inquiry = int(zip_inquiry)
     except:
-        print("\n Sorry. Could you re-enter a numeric zip code")
-    if zip_inquiry in available_zips:
+        print("\nSorry. Could you re-enter a numeric zip code in the recommended"
+              " neighborhoods?\n")
+    if zip_inquiry in property_zips:
         print(stats_df.loc[stats_df["zip_code"] == zip_inquiry])
         break
     else:
-        print("\n We didn't recognize that as a Chicago zip code")
+        print("\nWe didn't recognize that as a Chicago zip code in the" 
+              " recommended neighborhoods.")
         continue
 
 while True:
