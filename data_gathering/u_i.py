@@ -10,27 +10,44 @@ import mapping
 #import contextily as ctx
 
 # little introduction :)
-intro = ["Welcome to our Neighborhood matcher! \U0001F60A\U0001F3D9\n [ press enter to continue ]\n"]
-intro.append("I'm sure you're excited to meet your perfect neighborhood in Chicago,")
+intro = ["Welcome to our Neighborhood matcher! \U0001F60A\U0001F3D9\n"
+         " [ press enter to continue ]\n"]
+intro.append("I'm sure you're excited to meet your perfect neighborhood"
+             " in Chicago,")
 intro.append("but first let's get to know each other a little bit better.")
 intro.append("have a drink \U0001F377\U0001F378\U0001F9C3")     
-intro.append("and rank the following questions using the numbers from 1(low)-5(high)")
+intro.append("and rank the following questions using the numbers from 1(low)-"
+             "5(high)")
     
 for line in intro:
     print(line)
     input()
 
-error_value = "Sorry, I didn't catch that. Did you say '1', '2', '3', '4' or '5'?"
+error_value = ("Sorry, I didn't catch that. Did you say '1', '2', '3', '4'"
+               " or '5'?")
 
-attribute_dict = {"grocery_stores":"Question: how important is proximity to grocery stores for you? \U0001F34E \U0001F96C \U0001F35E \n",
-                  "parks":"Question: how important is proximity to parks for you? \U0001F343 \U0001F31E \U0001F3C3 \n",
-                  "libraries":"Question: how important is proximity to public libraries for you? \U0001F4DA \U0001F453 \U0001F3E0 \n",
-                  "health_centers":"Question: how important is proximity to health centers for you? \U0001F9D1 \U0001F9E1 \U0001F3E5 \n",
-                  "cta_train_stops":"Question: how important is proximity to CTA TRAIN stops for you? \U0001F687 \U0001F68D \U0001F698 \n",
-                  "cta_bus_stops":"Question: how important is proximity to CTA BUS stops for you? \U0001F687 \U0001F68D \U0001F698 \n",
-                  "crimes":"Question: how important is the local crime level to you? \U0001F303 \U0001F977 \U0001F4B0 \n"}
+attribute_dict = {"grocery_stores":("Question: how important is proximity to" 
+                                    " grocery stores for you? \U0001F34E" 
+                                    " \U0001F96C \U0001F35E \n"),
+                  "parks":("Question:(how important is proximity to parks for" 
+                           " you? \U0001F343 \U0001F31E \U0001F3C3 \n"),
+                  "libraries":("Question: how important is proximity to public"
+                               " libraries for you? \U0001F4DA \U0001F453" 
+                               " \U0001F3E0 \n"),
+                  "health_centers":("Question: how important is proximity to" 
+                                    " health centers for you? \U0001F9D1" 
+                                    " \U0001F9E1 \U0001F3E5 \n"),
+                  "cta_train_stops":("Question: how important is proximity to"
+                                     " CTA TRAIN stops for you? \U0001F687" 
+                                     " \U0001F68D \U0001F698 \n"),
+                  "cta_bus_stops":("Question: how important is proximity to CTA"
+                                   " BUS stops for you? \U0001F687 \U0001F68D"
+                                   " \U0001F698 \n"),
+                  "crimes":("Question: how important is the local crime level to"
+                            " you? \U0001F303 \U0001F977 \U0001F4B0 \n")}
 
-property_attribute_dict = {"price":"Question: what price range do you desire (1=least expensive, 5=most expensive",
+property_attribute_dict = {"price":("Question: what price range do you desire"
+                                    " (1=least expensive, 5=most expensive)"),
                             "beds":"Question: how many beds do you want (1-5)"}
 preference_dict = dict()
 
@@ -109,13 +126,15 @@ while True:
         continue
 
 while True:
-    response = input('\nWould you like to see a map of {}? [y or n]\n'.format(str(zip_inquiry)))
+    response = input('\nWould you like to see a map of {}' 
+                     ' [y or n]?\n'.format(str(zip_inquiry)))
     if 'y' == response.lower():
         zip_inquiry = int(zip_inquiry)
         params = ['all']
         mapping.community_profile_map(zip_inquiry, params)
         while True:
-            new_response = input('\nWould you like to see specific amenities [y or n]?\n')
+            new_response = input('\nWould you like to see specific amenities'
+                                 ' [y or n]?\n')
             if 'y' == new_response.lower() or 'n' == new_response.lower():
                 break
             else:
@@ -124,7 +143,7 @@ while True:
     elif 'n' == response.lower():
         break
     else:
-        print('Please respond with [y or n]\n')
+        print('\nPlease respond with [y or n]\n')
 
 param_s = set()
 p_dict = {1:'grocery', 
@@ -137,9 +156,12 @@ p_dict = {1:'grocery',
 while True:
     if new_response == 'n':
         break
-    print('\nPlease input one number corresponding to the amenity you would like to see.\n')
-    print("\nPlease type 'done' when you don't want to see any additional amenities.\n")
-    num = input('\n1=grocery, 2=health, 3=parks, 4=schools, 5=cta_rail, 6=library\n')
+    print('\nPlease input one number corresponding to the amenity you would' 
+          ' like to see.\n')
+    print("\nPlease type 'done' when you don't want to see any additional"
+          " amenities.\n")
+    num = input('\n1=grocery, 2=health, 3=parks, 4=schools, 5=cta_rail,'
+                ' 6=library\n')
     if num.lower() == 'done':
         mapping.community_profile_map(zip_inquiry, list(param_s))
         break 
@@ -155,8 +177,8 @@ while True:
         continue
 
 while True:
-    response = input(print("\nWould you like to download a complete list\
-         of properties that match your criteria? [y or n]\n"))
+    response = input("\nWould you like to download a complete list of"
+                     " properties that match your criteria? [y or n]\n")
     if 'y' == response.lower():
         stats = pd.read_csv("zip_stats.csv")
         stats = stats.rename(columns={"zip_code":"zip"})
