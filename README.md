@@ -11,10 +11,10 @@ Our ranking system uses weighted averages based on the relative frequency of amm
 ## **Project Goal**
 This project helps individuals moving to Chicago find potential neighborhoods and properties for sale based on individual preferences. Rather than blindly searching for properties on a property listing site, this program offers a more directed search by taking into consideration characteristics of a given zip code and the user's preferences. The user can also easily visualize the various resources available in a community by plotting a given zip code and immediately being able to view the libraries, grocery stores, health centers, train stops, schools, and parks that are in a given zip code. Lastly, users will be able to download all matches to their search in a .csv format so they can readily refer back to potential properties that have been found based on their preferences. 
 
-## ** Table of Contents **
+## **Table of Contents**
 ### Functions and Programs
 * [u_i.py](https://github.com/emmachancellor/cs122_finalproject/blob/main/data_gathering/u_i.py)
-> > The main user interface file that can be called in the terminal to start up the program
+<p>The main user interface file that can be called in the terminal to start up the program</p>
 * [mapping.py](https://github.com/emmachancellor/cs122_finalproject/blob/main/data_gathering/mapping.py)
 > > Contains mapping functionality functions and creation of GeoPandas DataFrames
 * [z_weight.py](https://github.com/emmachancellor/cs122_finalproject/blob/main/data_gathering/z_weight.py)
