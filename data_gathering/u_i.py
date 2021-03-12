@@ -124,8 +124,6 @@ while True:
                 print('\nPlease respond with [y or n].\n')
         break
     elif 'n' == response.lower():
-        print('\nWould you like to save a copy of our recommendations?\n')
-        print('End')
         break
     else:
         print('Please respond with [y or n]\n')
@@ -157,6 +155,25 @@ while True:
     else:
         param_s.add(p_dict[num])
         continue
+
+while True:
+    response = input(print("\nWould you like to download a complete list\
+         of properties that match your criteria? [y or n]\n"))
+    if 'y' == response.lower():
+        stats = pd.read_csv("zip_stats.csv")
+        stats = stats.rename(columns={"zip_code":"zip"})
+        properties = p_object.all_property_matches(price, beds)
+        final = pd.merge(properties, stats, left_on="zip", right_on="zip")
+        final.to_csv("property_results.csv", index = False)
+        print("Thank you for using our service to find a new home in Chicago!")
+        break
+    elif 'n' == response.lower():
+        print("Thank you for using our service to find a new home in Chicago!")
+        break
+    else:
+        print('Please respond with [y or n]\n')
+
+    
 
 
 
