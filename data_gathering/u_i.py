@@ -4,10 +4,6 @@ import zip_recommendation
 import redfin
 import math
 import mapping
-#import geopandas as gpd
-#import matplotlib.pyplot as plt
-#from shapely.geometry import Point
-#import contextily as ctx
 
 # little introduction :)
 intro = ["Welcome to our Neighborhood matcher! \U0001F60A\U0001F3D9\n"
@@ -53,7 +49,7 @@ preference_dict = dict()
 
 def get_score(attribute):
     '''
-    Takes user inputs and builds a socre dictionary
+    Takes user inputs and builds a score dictionary
     Input:
       attribute (str): key in attribute dictionary
     '''
@@ -156,48 +152,56 @@ p_dict = {1:'grocery',
 
 res = 0
 fail = 0
+flag = None
 while True:
-    while True:
-        if response == 'n':
-            break
-        if res == 'n':
-            break
-        if fail == 'fail':
-            break
-        print('\nPlease input one number corresponding to the amenity you would' 
-            ' like to see.\n')
-        print("\nPlease type 'done' when you don't want to see any additional"
-            " amenities.\n")
-        num = input('\n1=grocery, 2=health, 3=parks, 4=schools, 5=cta_rail,'
-                    ' 6=library\n')
-        if num.lower() == 'done':
-            mapping.community_profile_map(zip_inquiry, list(param_s))
-            break 
-        try:
-            num = int(num)
-        except:
-            continue
-        if num < 0 or num > 6:
-            print('\nPlease enter a number between 1 and 6.\n')
-            continue
-        else:
-            param_s.add(p_dict[num])
-            continue
+    if response == 'n':
+        break
+    if new_response == 'n':
+        break
+    if not flag:
+        while True:
+            if res == 'n':
+                break
+            if fail == 'fail':
+                break
+            print('\nPlease input one number corresponding to the amenity you would' 
+                ' like to see.\n')
+            print("\nPlease type 'done' when you don't want to see any additional"
+                " amenities.\n")
+            num = input('\n1=grocery, 2=health, 3=parks, 4=schools, 5=cta_rail,'
+                        ' 6=library\n')
+            if num.lower() == 'done':
+                mapping.community_profile_map(zip_inquiry, list(param_s))
+                while param_s:
+                    param_s.pop()
+                break 
+            try:
+                num = int(num)
+            except:
+                continue
+            if num < 0 or num > 6:
+                print('\nPlease enter a number between 1 and 6.\n')
+                continue
+            else:
+                param_s.add(p_dict[num])
+                continue
     res = input('\nWould you like to see a different zipcode [y or n]?\n')
     if res.lower() == 'y':
-        new_zip = input('\nPlease input zipcode.\n')
-        print('Available zipcodes:', available_zips)
+        print('\nYour property zipcodes:', property_zips)
+        new_zip = input('\nPlease input one of your property zipcodes.\n')
         try:
             zip_inquiry = int(new_zip)
         except:
             print('\nPlease enter a valid zipcode.\n')
             fail = 'fail'
             continue
-        if zip_inquiry in available_zips:
+        if int(new_zip) in property_zips:
             fail = None
+            flag = False
             continue
         else:
-            print('\nPlease enter a valid Chicago zipcode.\n')
+            print('\nPlease enter a Chicago zipcode in your property list.\n')
+            flag = True
             continue
     elif res.lower() == 'n':
         break
@@ -221,57 +225,3 @@ while True:
         break
     else:
         print('Please respond with [y or n]\n')
-
-    
-
-
-
-'''
-# zip conversion
-life_exp = pd.read_csv('../data_files/il_life_expectancy.csv', usecols=[0,2,3,4])
-life_exp.columns = life_exp.columns.str.lower().str.strip()
-to_drop = life_exp.loc[life_exp.cnty2kx != 31]
-life_exp.drop(to_drop.index, inplace=True)
-zip_census_conv = pd.read_csv('../data_files/zip_census_convert.csv')
-zip_census_conv.columns = zip_census_conv.columns.str.lower().str.strip()
-zip_census_conv.drop(columns=['bus_ratio', 'oth_ratio', 'tot_ratio'], inplace=True)
-income = pd.read_csv('../data_files/med_income.csv')
-income.columns = income.columns.str.lower().str.strip()
-tup_lst = list()
-for index, row in income.iterrows():
-    i = (zip_census_conv.loc[zip_census_conv.zip == row.zip_code])
-    best = i.res_ratio.max()
-    best_row = i.loc[i.res_ratio == best]
-    zip_code = (best_row.zip.values).tolist()
-    tract = (best_row.tract.values).tolist()
-    if zip_code and tract:
-        tup = zip_code[0], tract[0]
-        tup_lst.append(tup)
-zip_census_master = pd.DataFrame(tup_lst, columns=['zip', 'tract_id'])
-schools = pd.read_csv('../data_files/CPS.csv', usecols=[19, 67, 68])
-#missing zip codes in income but not census
-missing_zip = [60680,60691,60664]
-zips = list(map(int,income["zip_code"]))
-columns = ["zip_code","med_inc","lif_ex","schools"]
-tl = []
-for z in zips:
-    mi = income.loc[income["zip_code"] == z].values[0]
-    if(math.isnan(mi[0])):
-        mi = "NA"
-    else:
-        mi = int(mi[0])
-    if(z in missing_zip):
-        le = "NA"
-    else:
-        tract = zip_census_master.loc[zip_census_master["zip"] == z].values[0]
-        tract = tract[1]
-        if(life_exp.loc[life_exp["tract_id"] == tract].empty):
-            le = "NA"
-        else:
-            le = life_exp.loc[life_exp["tract_id"] == tract].values[0]
-            le = le[3]
-    num_s = len(schools[schools["Zip"] == z])
-    data = (z,mi,le,num_s)
-    tl.append(data)
-zip_information = pd.DataFrame(tl, columns=columns)
-'''
