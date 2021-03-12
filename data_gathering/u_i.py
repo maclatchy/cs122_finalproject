@@ -2,6 +2,7 @@
 import pandas as pd
 import numpy as np
 import zip_recommendation
+import mapping
 import redfin
 import math
 #import geopandas as gpd
@@ -30,8 +31,8 @@ attribute_dict = {"grocery_stores":"Question: how important is proximity to groc
                   "cta_bus_stops":"Question: how important is proximity to CTA BUS stops for you? \U0001F687 \U0001F68D \U0001F698 \n",
                   "crimes":"Question: how important is the local crime level to you? \U0001F303 \U0001F977 \U0001F4B0 \n"}
 
-property_attribute_dict = {"price":"Question: what price range do you desire (1=least expensive, 5=most expensive",
-                            "beds":"Question: how many beds do you want (1-5)"}
+property_attribute_dict = {"price":"Question: what price range do you desire (1=least expensive, 5=most expensive)\n",
+                            "beds":"Question: how many beds do you want (1-5)\n"}
 preference_dict = dict()
 
 def get_score(attribute):
@@ -108,6 +109,23 @@ while True:
         print("\n We didn't recognize that as a Chicago zip code")
         continue
 #%%
+while True:
+    response = input('\nWould you like to see a map of {}? [y or n]\n'.format(str(zip_inquiry)))
+    if 'y' == response.lower():
+        zip_inquiry = int(zip_inquiry)
+        params = 'all'
+        print(zip_inquiry, params)
+        #mapping.community_profile_map(zip_inquiry, params)
+        break
+    elif 'n' == response.lower():
+        print('\nWould you like to save a copy of our recommendations?\n')
+        print('End')
+        break
+    else:
+        print('Please respond with [y or n]\n')
+
+
+
 '''
 # zip conversion
 life_exp = pd.read_csv('../data_files/il_life_expectancy.csv', usecols=[0,2,3,4])
