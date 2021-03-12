@@ -132,6 +132,15 @@ def community_profile_map(zip_code, params):
     Output:
       Map of zip code with locations
     '''
+    if len(params) == 0:
+        poly = zip_gdf.geometry.values[zip_gdf.zip == zip_code][0]
+        base = zip_gdf.loc[zip_gdf.zip == zip_code].boundary.plot(color= 'black', 
+                                                              figsize=(20,20),
+                                                              label='Zipcode')
+        ctx.add_basemap(base, crs=zip_gdf.crs.to_string())
+        base.legend()
+        plt.show()
+        return
     if params[0] == 'all':
         params = ['grocery', 'health', 'parks', 
                   'schools','cta_rail', 'library']
