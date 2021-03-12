@@ -14,9 +14,9 @@ This project helps individuals moving to Chicago find potential neighborhoods an
 ## **Table of Contents**
 ### Functions and Programs
 * [u_i.py](https://github.com/emmachancellor/cs122_finalproject/blob/main/data_gathering/u_i.py)\
-    The main user interface file that can be called in the terminal to start up the program\
-* [mapping.py](https://github.com/emmachancellor/cs122_finalproject/blob/main/data_gathering/mapping.py)
-    Contains mapping functionality functions and creation of GeoPandas DataFrames
+    * The main user interface file that can be called in the terminal to start up the program
+* [mapping.py](https://github.com/emmachancellor/cs122_finalproject/blob/main/data_gathering/mapping.py)\
+    * Contains mapping functionality functions and creation of GeoPandas DataFrames
 * [z_weight.py](https://github.com/emmachancellor/cs122_finalproject/blob/main/data_gathering/z_weight.py)\
     Function for creating z-scores for each zip code and adding it to our table with the counts of each community factor per zip code
 * [zip_recommendation.py](https://github.com/emmachancellor/cs122_finalproject/blob/main/data_gathering/zip_recommendation.py)\
