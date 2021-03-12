@@ -105,7 +105,7 @@ class PropertyMatch:
 
     def __init__(self, zip_codes):
         self.zip_codes = zip_codes
-        self.price_dict = price_dict = {1:"least expensive", 2:"below average", 3:"average",
+        self.price_dict = {1:"least expensive", 2:"below average", 3:"average",
                         4:"more expensive", 5:"most expensive"}
 
     def property_matches(self, price, beds):
@@ -170,6 +170,7 @@ class PropertyMatch:
         redfin = pd.read_csv("redfin_clean.csv")
         price = self.price_dict[price]
         sub = redfin[redfin["zip"].isin(self.zip_codes)].copy()
+        sub = sub.loc[(sub.beds == beds)].copy()
         sub["quantile"] = pd.qcut(sub["price"], q = 5, precision = 0)
         bin_labels = ["most expensive", "expensive", "average", "below average", "least expensive"]
         sub['price_category'] = pd.qcut(sub['price'],
@@ -179,7 +180,28 @@ class PropertyMatch:
         sub_beds = sub_price.loc[sub.beds == beds]
         sub_beds = sub_beds.reset_index(drop=True)
         return sub_beds
+    
+    def get_prop_geom(self, price, beds):
+        '''
+        Creates a GeoDataFrame of the property matches
+        that fall into the user's price range and meet the
+        number of beds requirement. 
 
+        Inputs:
+        price (int): int. 1-5 representing relative housing cost
+        among the houses in the top-match zip codes. 1-least expensive, 
+        2-below average, 3-average, 4-expensive, 5-most expensive
+        beds (int): number of desired beds, minimum 1 and maximum 5
+
+        Outputs:
+        properties (GeoDataFrame): contains the property matches 
+        and a geometry column for each listing
+        '''
+        sub = self.all_property_matches(price, beds)
+        geometry = [Point(xy) for xy in zip(sub["latitude"], sub["longitude"])]
+        properties = gpd.GeoDataFrame(sub, crs = "EPSG:4326", geometry = geometry)
+        properties = properties.dropna()
+        return properties
 '''
 # Mapping Addresses (unfinished)
 # ["address", "zip", "price", "baths", "location", "sq_feet"]

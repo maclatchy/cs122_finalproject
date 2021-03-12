@@ -2,7 +2,6 @@
 import pandas as pd
 import numpy as np
 import zip_recommendation
-import mapping
 import redfin
 import math
 #import geopandas as gpd
@@ -31,8 +30,8 @@ attribute_dict = {"grocery_stores":"Question: how important is proximity to groc
                   "cta_bus_stops":"Question: how important is proximity to CTA BUS stops for you? \U0001F687 \U0001F68D \U0001F698 \n",
                   "crimes":"Question: how important is the local crime level to you? \U0001F303 \U0001F977 \U0001F4B0 \n"}
 
-property_attribute_dict = {"price":"Question: what price range do you desire (1=least expensive, 5=most expensive)\n",
-                            "beds":"Question: how many beds do you want (1-5)\n"}
+property_attribute_dict = {"price":"Question: what price range do you desire (1=least expensive, 5=most expensive",
+                            "beds":"Question: how many beds do you want (1-5)"}
 preference_dict = dict()
 
 def get_score(attribute):
