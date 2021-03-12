@@ -107,16 +107,14 @@ color = {'grocery':'red',
          'parks':'green',
          'schools':'brown',
          'cta_rail':'orange',
-         'library':'yellow',
-         'property':'purple'}
+         'library':'yellow'}
 
 label = {'grocery':'Grocery Stores',
          'health':'Health Centers',
          'parks':'Parks',
          'schools':'Schools',
          'cta_rail':'CTA Rail',
-         'library':'Libraries',
-         'property': 'Properties'}
+         'library':'Libraries'}
 
 df_dict = {'grocery':grocery,
            'health':health,
@@ -125,7 +123,7 @@ df_dict = {'grocery':grocery,
            'cta_rail':cta_rail,
            'library':library}
 
-def community_profile_map(zip_code, params):
+def community_profile_map(zip_code, params, props):
     '''
     Input:
       zip (int): ZIP code
@@ -141,6 +139,9 @@ def community_profile_map(zip_code, params):
     base = zip_gdf.loc[zip_gdf.zip == zip_code].boundary.plot(color= 'black', 
                                                               figsize=(20,20),
                                                               label='Zipcode')
+    props_to_include = list(map(lambda x: x.within(poly),props.geometry))
+    props[props_to_include].plot(ax=base, color='purple', figsize=(20,20), 
+                                 label='Property', marker='*')
     for p in params:
         new_p = list(map(lambda x: x.within(poly),df_dict[p].geometry))
         if any(new_p):
