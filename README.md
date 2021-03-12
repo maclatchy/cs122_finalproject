@@ -25,7 +25,7 @@ This project helps individuals moving to Chicago find potential neighborhoods an
     * Gets the top 300 property listings in every Chicago zip code from Redfin.com and cleans results
     * Creates the PropertyMatch class that has methods to produce a DataFrame of match results, a string that can be printed and lists the top two property matches from each matched zip code, and creates a GeoDataFrame with properties
 
-## Data Scraping and Cleaning
+### Data Scraping and Cleaning
 * [count_table.py](https://github.com/emmachancellor/cs122_finalproject/blob/main/data_files/count_table.py)
     Creates a table with the counts of the number of libraries, grocery stores, CTA bus stops, CTA train stops, parks, health centers, crimes (from 2015 to present) in each zip code.
 * [parks_scrape.py](https://github.com/emmachancellor/cs122_finalproject/blob/main/data_gathering/parks_scrape.py)
