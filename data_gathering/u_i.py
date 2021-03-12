@@ -113,9 +113,14 @@ while True:
     response = input('\nWould you like to see a map of {}? [y or n]\n'.format(str(zip_inquiry)))
     if 'y' == response.lower():
         zip_inquiry = int(zip_inquiry)
-        params = 'all'
-        print(zip_inquiry, params)
-        #mapping.community_profile_map(zip_inquiry, params)
+        params = ['all']
+        mapping.community_profile_map(zip_inquiry, params)
+        while True:
+            new_response = input('\nWould you like to see specific amenities [y or n]?\n')
+            if 'y' == new_response.lower() or 'n' == new_response.lower():
+                break
+            else:
+                print('\nPlease respond with [y or n].\n')
         break
     elif 'n' == response.lower():
         print('\nWould you like to save a copy of our recommendations?\n')
@@ -123,6 +128,34 @@ while True:
         break
     else:
         print('Please respond with [y or n]\n')
+
+param_s = set()
+p_dict = {1:'grocery', 
+          2:'health',
+          3:'parks', 
+          4:'schools', 
+          5:'cta_rail', 
+          6:'library'}
+
+while True:
+    if new_response == 'n':
+        break
+    print('\nPlease input one number corresponding to the amenity you would like to see.\n')
+    print("\nPlease type 'done' when you don't want to see any additional amenities.\n")
+    num = input('\n1=grocery, 2=health, 3=parks, 4=schools, 5=cta_rail, 6=library\n')
+    if num.lower() == 'done':
+        mapping.community_profile_map(zip_inquiry, list(param_s))
+        break 
+    try:
+        num = int(num)
+    except:
+        continue
+    if num < 0 or num > 6:
+        print('\nPlease enter a number between 1 and 6.\n')
+        continue
+    else:
+        param_s.add(p_dict[num])
+        continue
 
 
 
